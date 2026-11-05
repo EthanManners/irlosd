@@ -9,7 +9,8 @@ use serde_json::{Value, json};
 use std::process::exit;
 use std::time::Duration;
 
-const USAGE: &str = "usage: irlosd [console | serve | status | start | stop | scene <name>]";
+const USAGE: &str =
+    "usage: irlosd [console | serve | status | start | stop | scene <name> | bridge]";
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -17,6 +18,7 @@ fn main() {
     let result = match args.as_slice() {
         [] | ["console"] => connect().and_then(console::run),
         ["serve"] => daemon::serve(),
+        ["bridge"] => bridge(),
         ["status"] => once(json!({ "op": "get_status" })),
         ["start"] => once(json!({ "op": "start_streaming" })),
         ["stop"] => once(json!({ "op": "stop_streaming" })),
@@ -67,4 +69,28 @@ fn once(req: Value) -> Result<(), String> {
         e if e.is_empty() => Ok(()),
         e => Err(e),
     }
+}
+
+/// Pipe stdin/stdout to the daemon socket, raw. This is how remote clients
+/// (the irlos.live backend, over a forced-command SSH key) speak ICP to irlosd.
+fn bridge() -> Result<(), String> {
+    use std::io::{Read, Write};
+    let socket = config::client_socket();
+    let mut to_daemon = std::os::unix::net::UnixStream::connect(&socket)
+        .map_err(|e| format!("cannot reach irlosd at {} ({e})", socket.display()))?;
+    let mut from_daemon = to_daemon.try_clone().map_err(|e| e.to_string())?;
+    std::thread::spawn(move || {
+        let mut buf = [0u8; 16384];
+        let mut out = std::io::stdout().lock();
+        while let Ok(n @ 1..) = from_daemon.read(&mut buf) {
+            if out.write_all(&buf[..n]).and_then(|_| out.flush()).is_err() {
+                break;
+            }
+        }
+        exit(0);
+    });
+    let _ = std::io::copy(&mut std::io::stdin().lock(), &mut to_daemon);
+    let _ = to_daemon.shutdown(std::net::Shutdown::Write);
+    std::thread::sleep(Duration::from_secs(10));
+    Ok(())
 }
