@@ -1,0 +1,18 @@
+# One IRLOS seat: irlosd + headless IrlosStudio on the NVIDIA GPU.
+services:
+  irlosd:
+    build: .
+    image: irlosd
+    container_name: irlosd
+    env_file: .env
+    restart: unless-stopped
+    stop_grace_period: 20s
+    tmpfs: [/run/irlos]
+    devices: [/dev/dri:/dev/dri]
+    environment:
+      NVIDIA_DRIVER_CAPABILITIES: all
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    deploy:
+      resources:
+        reservations:
+          devices: [{ driver: nvidia, count: all, capabilities: [gpu] }]

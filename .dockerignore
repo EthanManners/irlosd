@@ -1,0 +1,10 @@
+**/.git
+target
+NOALBS
+.env
+run
+IrlosStudio/build
+IrlosStudio/build_rel
+IrlosStudio/build_ubuntu
+IrlosStudio/build-icp
+IrlosStudio/.deps

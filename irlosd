@@ -1,0 +1,13 @@
+#!/bin/sh
+# Launch irlosd (if it isn't running yet) and open its console.
+#   ./irlosd            console: press s to go live
+#   ./irlosd start|stop|status|scene <name>
+set -e
+cd "$(dirname "$0")"
+if [ ! -f .env ]; then
+  cp .env.example .env
+  echo "Created .env. Put your stream key in it (STREAM_KEY=...), then run ./irlosd again."
+  exit 1
+fi
+docker compose up -d
+exec docker compose exec irlosd irlosd "$@"

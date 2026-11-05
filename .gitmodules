@@ -1,0 +1,4 @@
+[submodule "IrlosStudio"]
+	path = IrlosStudio
+	url = git@github.com:EthanManners/IrlosStudio.git
+	branch = irlos/headless

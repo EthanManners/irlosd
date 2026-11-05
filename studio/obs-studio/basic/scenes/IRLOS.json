@@ -1,0 +1,216 @@
+{
+  "name": "IRLOS",
+  "current_scene": "BRB",
+  "current_program_scene": "BRB",
+  "current_transition": "Cut",
+  "transition_duration": 300,
+  "scene_order": [
+    {
+      "name": "Live"
+    },
+    {
+      "name": "Low"
+    },
+    {
+      "name": "BRB"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Live",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000011",
+      "id": "scene",
+      "versioned_id": "scene",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "settings": {
+        "id_counter": 1,
+        "custom_size": false,
+        "items": [
+          {
+            "name": "SRT Feed",
+            "source_uuid": "a1b2c3d4-0000-4000-8000-000000000001",
+            "id": 1,
+            "visible": true,
+            "locked": true,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "rot": 0.0,
+            "align": 5,
+            "bounds_type": 2,
+            "bounds_align": 0,
+            "bounds": {
+              "x": {{WIDTH}},
+              "y": {{HEIGHT}}
+            },
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Low",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000012",
+      "id": "scene",
+      "versioned_id": "scene",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "settings": {
+        "id_counter": 2,
+        "custom_size": false,
+        "items": [
+          {
+            "name": "SRT Feed",
+            "source_uuid": "a1b2c3d4-0000-4000-8000-000000000001",
+            "id": 1,
+            "visible": true,
+            "locked": true,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "rot": 0.0,
+            "align": 5,
+            "bounds_type": 2,
+            "bounds_align": 0,
+            "bounds": {
+              "x": {{WIDTH}},
+              "y": {{HEIGHT}}
+            },
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal"
+          },
+          {
+            "name": "Low Banner",
+            "source_uuid": "a1b2c3d4-0000-4000-8000-000000000003",
+            "id": 2,
+            "visible": true,
+            "locked": true,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "rot": 0.0,
+            "align": 5,
+            "bounds_type": 2,
+            "bounds_align": 0,
+            "bounds": {
+              "x": {{WIDTH}},
+              "y": {{HEIGHT}}
+            },
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BRB",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000013",
+      "id": "scene",
+      "versioned_id": "scene",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "settings": {
+        "id_counter": 1,
+        "custom_size": false,
+        "items": [
+          {
+            "name": "BRB Card",
+            "source_uuid": "a1b2c3d4-0000-4000-8000-000000000002",
+            "id": 1,
+            "visible": true,
+            "locked": true,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "rot": 0.0,
+            "align": 5,
+            "bounds_type": 2,
+            "bounds_align": 0,
+            "bounds": {
+              "x": {{WIDTH}},
+              "y": {{HEIGHT}}
+            },
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SRT Feed",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000001",
+      "id": "ffmpeg_source",
+      "versioned_id": "ffmpeg_source",
+      "mixers": 63,
+      "monitoring_type": 0,
+      "settings": {
+        "is_local_file": false,
+        "input": "{{SRT_URL}}",
+        "input_format": "mpegts",
+        "reconnect_delay_sec": 1,
+        "buffering_mb": 2,
+        "close_when_inactive": false,
+        "restart_on_activate": false,
+        "clear_on_media_end": true,
+        "hw_decode": false
+      }
+    },
+    {
+      "name": "BRB Card",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000002",
+      "id": "ffmpeg_source",
+      "versioned_id": "ffmpeg_source",
+      "mixers": 63,
+      "monitoring_type": 0,
+      "settings": {
+        "is_local_file": true,
+        "local_file": "{{BRB_MEDIA}}",
+        "looping": true,
+        "close_when_inactive": false,
+        "restart_on_activate": false,
+        "hw_decode": false
+      }
+    },
+    {
+      "name": "Low Banner",
+      "uuid": "a1b2c3d4-0000-4000-8000-000000000003",
+      "id": "image_source",
+      "versioned_id": "image_source",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "settings": {
+        "file": "{{LOW_MEDIA}}"
+      }
+    }
+  ],
+  "groups": [],
+  "transitions": [],
+  "quick_transitions": [],
+  "modules": {}
+}

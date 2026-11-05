@@ -1,0 +1,1 @@
+{"type":"rtmp_custom","settings":{"server":"{{STREAM_SERVER}}","key":"{{STREAM_KEY}}","use_auth":false}}
